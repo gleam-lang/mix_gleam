@@ -32,5 +32,18 @@ def project do
 end
 ```
 
+Create a `gleam.toml` file containing the name of your OTP application:
+
+```toml
+# In a new gleam.toml file
+name = "my_cool_project"
+```
+
+Make a `src` directory for your Gleam code to live in:
+
+```
+mkdir src
+```
+
 And add `gen` to your `.gitignore` so that the generated Erlang is not
 included in your project.
