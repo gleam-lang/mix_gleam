@@ -1,0 +1,7 @@
+%{
+  "earmark": {:hex, :earmark, "1.4.4", "4821b8d05cda507189d51f2caeef370cf1e18ca5d7dfb7d31e9cafe6688106a4", [:mix], [], "hexpm"},
+  "ex_doc": {:hex, :ex_doc, "0.22.1", "9bb6d51508778193a4ea90fa16eac47f8b67934f33f8271d5e1edec2dc0eee4c", [:mix], [{:earmark, "~> 1.4.0", [hex: :earmark, repo: "hexpm", optional: false]}, {:makeup_elixir, "~> 0.14", [hex: :makeup_elixir, repo: "hexpm", optional: false]}], "hexpm"},
+  "makeup": {:hex, :makeup, "1.0.2", "0b9f7bfb7a88bed961341b359bc2cc1b233517af891ba4890ec5a580ffe738b4", [:mix], [{:nimble_parsec, "~> 0.5", [hex: :nimble_parsec, repo: "hexpm", optional: false]}], "hexpm"},
+  "makeup_elixir": {:hex, :makeup_elixir, "0.14.1", "4f0e96847c63c17841d42c08107405a005a2680eb9c7ccadfd757bd31dabccfb", [:mix], [{:makeup, "~> 1.0", [hex: :makeup, repo: "hexpm", optional: false]}], "hexpm"},
+  "nimble_parsec": {:hex, :nimble_parsec, "0.6.0", "32111b3bf39137144abd7ba1cce0914533b2d16ef35e8abc5ec8be6122944263", [:mix], [], "hexpm"},
+}
