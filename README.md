@@ -37,6 +37,7 @@ Create a `gleam.toml` file containing the name of your OTP application:
 ```toml
 # In a new gleam.toml file
 name = "my_cool_project"
+version = "0.0.1"
 ```
 
 Make a `src` directory for your Gleam code to live in:
