@@ -13,7 +13,7 @@ Add `mix_gleam` to your mix project deps:
 # in mix.exs
 def deps do
   [
-    {:mix_gleam, "~> 0.1.0"},
+    {:mix_gleam, "~> 0.2"},
   ]
 end
 ```
