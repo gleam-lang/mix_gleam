@@ -23,7 +23,7 @@ defmodule Mix.Tasks.Gleam.New do
   """
 
   @switches [
-    # TODO
+    retro: :boolean,
   ]
 
   @impl true
@@ -32,14 +32,22 @@ defmodule Mix.Tasks.Gleam.New do
 
     # TODO
     case OptionParser.parse(args, switches: @switches) do
-
-      {_options, tail, _} -> tail
+      {options, _tail, _} ->
+        retro? = Keyword.get(options, :retro, false)
+        unless retro? do
+          Mix.Tasks.Help.run(["gleam.new"])
+          @shell.info("\n")
+          retro()
+        end
+        if retro?, do: retro()
     end
 
-    Mix.Tasks.Help.run(["gleam.new"])
-    @shell.info("\n## Example `mix.exs` follows:\n")
-    @shell.info(MixGleam.Config.render_mix(:my_gleam_app))
-
     MixGleam.IO.debug_info("New End")
+  end
+
+  @doc false
+  def retro() do
+    @shell.info("## Example `mix.exs` follows:\n")
+    @shell.info(MixGleam.Config.render_mix(:my_gleam_app))
   end
 end
