@@ -1,49 +1,78 @@
 # MixGleam
 
-A mix plugin for compiling Gleam code!
+An Elixir archive that teaches `Mix` how to work with Gleam code and
+dependencies!
 
 ## Installation
 
 Install the Gleam compiler onto your machine. [Installation instructions can
 be found here here](https://gleam.run/getting-started/installing-gleam.html).
 
-Add `mix_gleam` to your mix project deps:
+Install or update the `MixGleam` archive from Hex:
+
+```shell
+$ mix archive.install hex mix_gleam
+```
+
+To install or update from source:
+
+```shell
+$ mix archive.uninstall mix_gleam # if this archive was previously installed
+$ git clone https://github.com/gleam-lang/mix_gleam.git
+$ cd mix_gleam
+$ MIX_ENV=prod mix do archive.build, archive.install
+```
+
+Configure your `Mix` project to use the `MixGleam` archive to work with Gleam's
+compiler and Gleam dependencies:
 
 ```elixir
 # in mix.exs
-def deps do
-  [
-    {:mix_gleam, "~> 0.2"},
-  ]
-end
+# ...
+  @app :my_gleam_app
+
+  def project do
+    [
+      app: @app,
+      # ...
+      archives: [mix_gleam: "~> 0.3.0"],
+      aliases: MixGleam.add_aliases(),
+      erlc_paths: ["build/dev/erlang/#{@app}/build"],
+      erlc_include_path: "build/dev/erlang/#{@app}/include",
+      # ...
+    ]
+  end
+# ...
 ```
 
-Configure your mix project to add the Gleam compiler and to compile Erlang
-that Gleam generates:
+To see an entire example `mix.exs` file you can adapt to your existing `Mix`
+project:
+
+```shell
+$ mix gleam.new --retro
+```
+
+If you want to write Gleam code in your project, it's a good idea to add
+`gleam_stdlib` to your project's dependencies:
 
 ```elixir
 # in mix.exs
-def project do
-  [
-    # ...
-    erlc_paths: ["src", "gen"],
-    compilers: [:gleam | Mix.compilers()], # Gleam must go first
-  ]
-end
-```
-
-Create a `gleam.toml` file containing the name of your OTP application:
-
-```toml
-# In a new gleam.toml file
-name = "my_cool_project"
+# ...
+  defp deps do
+    [
+      # ...
+      {:gleam_stdlib, "~> 0.18"},
+      # ...
+    ]
+  end
+# ...
 ```
 
 Make a `src` directory for your Gleam code to live in:
 
-```
-mkdir src
+```shell
+$ mkdir src
 ```
 
-And add `gen` to your `.gitignore` so that the generated Erlang is not
-included in your project.
+And add the `build` directory to your `.gitignore` file so Gleam's build
+artefacts are not included in your project.
