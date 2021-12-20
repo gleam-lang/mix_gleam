@@ -4,7 +4,7 @@ defmodule MixGleam.MixProject do
   def project do
     [
       app: :mix_gleam,
-      version: "0.2.0",
+      version: "0.3.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       name: "mix_gleam",
@@ -26,7 +26,7 @@ defmodule MixGleam.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, ">= 0.0.0", only: :docs, runtime: false}
     ]
   end
 end
