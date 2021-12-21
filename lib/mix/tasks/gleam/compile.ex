@@ -1,6 +1,7 @@
 defmodule Mix.Tasks.Gleam.Compile do
   use Mix.Task
 
+  @shortdoc "Compiles Gleam source files"
   @recursive true
 
   @shell Mix.shell()
@@ -115,40 +116,55 @@ defmodule Mix.Tasks.Gleam.Compile do
           rescue
             _ -> raise MixGleam.Error, message: "Unable to find app name"
           end
+        compile_package(app)
+      end
+    end
+    :ok
+  end
 
-        files =
-          MixGleam.find_files()
-          |> Enum.count
+  @doc false
+  def compile_package(app, tests? \\ false) do
+    search_paths =
+      unless tests? do
+        ["*{src,lib}"]
+      else
+        ["*test"]
+      end
 
-        if 0 < files do
-          out = "build/dev/erlang/#{app}/build"
+    files =
+      MixGleam.find_files(search_paths)
+      |> Enum.count
 
-          # TODO remove when `gleam` handles this
-          File.mkdir_p(out)
-          Path.wildcard("src/**/*.{e,h}rl")
-          |> Enum.each(&File.cp(&1, Path.join(out, Path.basename(&1))))
+    if 0 < files do
+      out = "build/dev/erlang/#{app}/build"
 
-          cmd = "gleam compile-package --target erlang --name #{app} --src #{MixGleam.find_paths() |> hd} --out #{out} #{MixGleam.find_libs()}"
+      # TODO remove when `gleam` handles this
+      File.mkdir_p(out)
+      Path.join(search_paths ++ ["**/*.{e,h}rl"])
+      |> Path.wildcard
+      |> Enum.each(&File.cp(&1, Path.join(out, Path.basename(&1))))
 
-          @shell.info("Compiling #{files} file#{if 1 < files, do: "s"} (.gleam)")
-          MixGleam.IO.debug_info("Compiler Command", cmd)
-          compiled? =
-            @shell.cmd(cmd)
-            |> Kernel.===(0)
+      cmd = "gleam compile-package --target erlang --name #{app} --src #{MixGleam.find_paths([""], search_paths) |> hd} --out #{out} #{if tests?, do: "--lib #{out}"} #{MixGleam.find_libs()}"
+      @shell.info("Compiling #{files} #{if tests?, do: "test "}file#{if 1 != files, do: "s"} (.gleam)")
+      MixGleam.IO.debug_info("Compiler Command", cmd)
+      compiled? =
+        @shell.cmd(cmd)
+        |> Kernel.===(0)
+      if compiled? do
+        # TODO remove when `gleam` handles this
+        include =
+          Path.dirname(out)
+          |> Path.join("include")
+        File.mkdir_p(include)
+        Path.join(out, "**/*.hrl")
+        |> Path.wildcard
+        |> Enum.each(&File.cp(&1, Path.join(include, Path.basename(&1))))
 
-          if compiled? do
-            # TODO remove when `gleam` handles this
-            include = 
-              Path.dirname(out)
-              |> Path.join("include")
-            File.mkdir_p(include)
-            Path.join(out, "**/*.hrl")
-            |> Path.wildcard
-            |> Enum.each(&File.cp(&1, Path.join(include, Path.basename(&1))))
-          else
-            raise MixGleam.Error, message: "Compilation failed with command:\n\n#{cmd}"
-          end
+        if not tests? and Mix.env() in [:dev, :test] do
+          compile_package(app, true)
         end
+      else
+        raise MixGleam.Error, message: "Compilation failed with command:\n\n#{cmd}"
       end
     end
     :ok

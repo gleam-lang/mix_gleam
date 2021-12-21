@@ -1,6 +1,8 @@
 defmodule Mix.Tasks.Gleam.New do
   use Mix.Task
 
+  @shortdoc "Creates a new Gleam project"
+
   @shell Mix.shell()
 
   @moduledoc """

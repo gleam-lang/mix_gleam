@@ -53,7 +53,7 @@ $ mix gleam.new --retro
 ```
 
 If you want to write Gleam code in your project, it's a good idea to add
-`gleam_stdlib` to your project's dependencies:
+`gleam_stdlib` and `gleeunit` to your project's dependencies:
 
 ```elixir
 # in mix.exs
@@ -62,6 +62,7 @@ If you want to write Gleam code in your project, it's a good idea to add
     [
       # ...
       {:gleam_stdlib, "~> 0.18"},
+      {:gleeunit, "~> 0.5", only: [:dev, :test], runtime: false},
       # ...
     ]
   end

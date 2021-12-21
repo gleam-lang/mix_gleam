@@ -1,10 +1,14 @@
 defmodule MixGleam.Config do
   @version "0.3.0"
+  @deps [
+    {:gleam_stdlib, "~> 0.18"},
+    {:gleeunit, "~> 0.5", only: [:dev, :test], runtime: false},
+  ]
 
   @moduledoc false
 
   # TODO use eex template
-  def render_mix(app, version \\ "0.1.0", deps \\ [{:gleam_stdlib, "~> 0.18", default_placeholder: "###"}]) do
+  def render_mix(app, version \\ "0.1.0", deps \\ @deps) do
     ex_ver =
       System.version
       |> Version.parse!
@@ -12,8 +16,6 @@ defmodule MixGleam.Config do
     deps =
       deps
       |> inspect(pretty: true, limit: :infinity, width: 50)
-      # Placeholder forces a more expected keyword format
-      |> String.replace(~r/,\s*\[\s*default_placeholder:\s+"###"\s*\]/, "")
       |> String.replace("\n", "\n    ")
 
 ~s(defmodule #{Mix.Utils.command_to_module_name(app)}.MixProject do
@@ -59,6 +61,7 @@ end)
     File.read!(path)
     |> String.split(definition, trim: true)
     |> Stream.map(&tokenize/1)
+    |> Stream.reject(&({[], nil} == &1))
     |> Stream.map(&atomize/1)
     |> Stream.map(&parse/1)
     |> structure
