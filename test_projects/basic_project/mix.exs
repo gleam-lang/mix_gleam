@@ -1,17 +1,23 @@
 defmodule BasicProject.MixProject do
   use Mix.Project
 
+  @app :basic_project
+  @version "0.1.0"
+
   def project do
     [
-      app: :basic_project,
-      version: "0.1.0",
+      app: @app,
+      version: @version,
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
 
       # New items added for Gleam compilation
-      compilers: [:gleam | Mix.compilers()],
-      erlc_paths: ["src", "gen"]
+      #compilers: [:gleam | Mix.compilers()],
+      archives: [mix_gleam: "~> 0.3.0"],
+      aliases: MixGleam.add_aliases(),
+      erlc_paths: ["build/dev/erlang/#{@app}/build"],
+      erlc_include_path: "build/dev/erlang/#{@app}/include",
     ]
   end
 
@@ -25,7 +31,8 @@ defmodule BasicProject.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:mix_gleam, path: "../../"}
+      #{:mix_gleam, path: "../../"}
+      {:gleeunit, "~> 0.5", only: [:dev, :test], runtime: false},
     ]
   end
 end
