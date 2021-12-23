@@ -164,7 +164,7 @@ defmodule Mix.Tasks.Gleam.Compile do
           compile_package(app, true)
         end
       else
-        raise MixGleam.Error, message: "Compilation failed with command:\n\n#{cmd}"
+        raise MixGleam.Error, message: "Compilation failed"
       end
     end
     :ok
