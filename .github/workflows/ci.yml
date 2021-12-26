@@ -5,9 +5,9 @@ on:
   pull_request:
 
 jobs:
-  test:
+  basic_project:
     runs-on: ubuntu-latest
-    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    name: Test basic project
     env:
       MIX_ENV: test
     steps:
