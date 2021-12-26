@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    env:
+      MIX_ENV: test
+    steps:
+      - uses: actions/checkout@v2
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "24.2"
+          elixir-version: "1.13.1"
+          gleam-version: "0.18.2"
+      - run: mix do archive.build, archive.install --force
+
+      - run: mix deps.get
+        working-directory: test_projects/basic_project
+
+      - run: mix test
+        working-directory: test_projects/basic_project
