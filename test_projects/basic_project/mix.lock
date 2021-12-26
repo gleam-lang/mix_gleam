@@ -1,0 +1,4 @@
+%{
+  "gleam_stdlib": {:hex, :gleam_stdlib, "0.18.1", "051dcb6766a515827e5893089ba4ebab7c8d43f4594a483d97d374a62f3aa506", [:gleam], [], "hexpm", "763ecd87d54d08755ee4c8551720d122fdca47f61d1ca8af23b19a90395a7468"},
+  "gleeunit": {:hex, :gleeunit, "0.5.1", "5abc68492e10c090561fba7a91efe99b69ba87cedcfa745198b4812c12574a87", [:gleam], [{:gleam_stdlib, "~> 0.17", [hex: :gleam_stdlib, repo: "hexpm", optional: false]}], "hexpm", "f7fa7477d930178c1e59519dbdb5e086be3a6b65f015b67da94d30a323062154"},
+}
