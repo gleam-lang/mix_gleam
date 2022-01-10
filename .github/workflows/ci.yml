@@ -16,11 +16,14 @@ jobs:
         with:
           otp-version: "24.2"
           elixir-version: "1.13.1"
-          gleam-version: "0.18.2"
+          gleam-version: "0.19.0-rc3"
       - run: mix do archive.build, archive.install --force
 
       - run: mix deps.get
         working-directory: test_projects/basic_project
 
       - run: mix test
+        working-directory: test_projects/basic_project
+
+      - run: mix gleam.test
         working-directory: test_projects/basic_project
