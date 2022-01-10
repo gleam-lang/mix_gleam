@@ -16,7 +16,7 @@ jobs:
         with:
           otp-version: "24.2"
           elixir-version: "1.13.1"
-          gleam-version: "0.19.0-rc3"
+          gleam-version: "0.19.0-rc4"
       - run: mix do archive.build, archive.install --force
 
       - run: mix deps.get
