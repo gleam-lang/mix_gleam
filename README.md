@@ -35,7 +35,7 @@ compiler and Gleam dependencies:
     [
       app: @app,
       # ...
-      archives: [mix_gleam: "~> 0.3.0"],
+      archives: [mix_gleam: "~> 0.4.0"],
       aliases: MixGleam.add_aliases(),
       erlc_paths: ["build/dev/erlang/#{@app}/build"],
       erlc_include_path: "build/dev/erlang/#{@app}/include",

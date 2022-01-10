@@ -108,17 +108,16 @@ defmodule Mix.Tasks.Gleam.Compile do
 
     proceed? = fn -> not has_own_gleam_manager?.() and not cmd?.() end
 
-    if gleam?.() do
-      if force?.() or proceed?.() do
-        app =
-          try do
-            Keyword.get_lazy(options, :app, fn -> elem(options[:lock], 1) end)
-          rescue
-            _ -> raise MixGleam.Error, message: "Unable to find app name"
-          end
-        compile_package(app)
-      end
+    if gleam?.() and (force?.() or proceed?.()) do
+      app =
+        try do
+          Keyword.get_lazy(options, :app, fn -> elem(options[:lock], 1) end)
+        rescue
+          _ -> raise MixGleam.Error, message: "Unable to find app name"
+        end
+      compile_package(app)
     end
+
     :ok
   end
 
@@ -136,37 +135,28 @@ defmodule Mix.Tasks.Gleam.Compile do
       |> Enum.count
 
     if 0 < files do
-      out = "build/dev/erlang/#{app}/build"
+      lib = Path.join(Mix.Project.build_path(), "lib")
+      out = "build/dev/erlang/#{app}"
 
-      # TODO remove when `gleam` handles this
-      File.mkdir_p(out)
-      Path.join(search_paths ++ ["**/*.{e,h}rl"])
-      |> Path.wildcard
-      |> Enum.each(&File.cp(&1, Path.join(out, Path.basename(&1))))
+      File.mkdir_p!(lib)
 
-      cmd = "gleam compile-package --target erlang --name #{app} --src #{MixGleam.find_paths([""], search_paths) |> hd} --out #{out} #{if tests?, do: "--lib #{out}"} #{MixGleam.find_libs()}"
+      cmd = "gleam compile-package --target erlang --no-beam --package . --out #{out} --lib #{lib}"
       @shell.info("Compiling #{files} #{if tests?, do: "test "}file#{if 1 != files, do: "s"} (.gleam)")
       MixGleam.IO.debug_info("Compiler Command", cmd)
-      compiled? =
-        @shell.cmd(cmd)
-        |> Kernel.===(0)
-      if compiled? do
-        # TODO remove when `gleam` handles this
-        include =
-          Path.dirname(out)
-          |> Path.join("include")
-        File.mkdir_p(include)
-        Path.join(out, "**/*.hrl")
-        |> Path.wildcard
-        |> Enum.each(&File.cp(&1, Path.join(include, Path.basename(&1))))
+      compiled? = @shell.cmd(cmd) === 0
 
-        if not tests? and Mix.env() in [:dev, :test] do
-          compile_package(app, true)
-        end
+      if compiled? do
+        File.cp_r!(out, Mix.Project.app_path())
+
+        # TODO reuse when `gleam` conditionally compiles tests
+        #if not tests? and Mix.env() in [:dev, :test] do
+          #compile_package(app, true)
+        #end
       else
         raise MixGleam.Error, message: "Compilation failed"
       end
     end
+
     :ok
   end
 end
