@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.4.0 - 2021-01-10
+## v0.4.0 - 2022-01-10
 
 - Updated to work with the `gleam compile-package` v0.19 API.
 
