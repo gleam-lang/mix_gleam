@@ -71,7 +71,7 @@ If you want to write Gleam code in your project, it's a good idea to add
 
 Create `gleam.toml` with the contents:
 
-```
+```toml
 name = "my_gleam_app"
 ```
 
@@ -89,4 +89,4 @@ To test if gleam runs you need to add an entry point module.
 ## Making sure gleam compiles
 
 1. Create `src/foo.gleam` with contents: `pub fn bar() { "quux" }`
-3. Run `mix compile`. You can now call `:foo.bar()` like you would call any erlang function from Elixir.
+2. Run `mix compile`. You can now call `:foo.bar()` like you would call any erlang function from Elixir.
