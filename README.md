@@ -83,10 +83,3 @@ $ mkdir src
 
 And add the `build` directory to your `.gitignore` file so Gleam's build
 artefacts are not included in your project.
-
-To test if gleam runs you need to add an entry point module.
-
-## Making sure gleam compiles
-
-1. Create `src/foo.gleam` with contents: `pub fn bar() { "quux" }`
-2. Run `mix compile`. You can now call `:foo.bar()` like you would call any erlang function from Elixir.
