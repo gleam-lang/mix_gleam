@@ -136,11 +136,39 @@ defmodule Mix.Tasks.Gleam.Compile do
 
     if 0 < files do
       lib = Path.join(Mix.Project.build_path(), "lib")
+      build = Path.join(lib, "#{app}")
       out = "build/dev/erlang/#{app}"
 
-      File.mkdir_p!(lib)
+      File.mkdir_p!(build)
 
-      cmd = "gleam compile-package --target erlang --no-beam --package . --out #{out} --lib #{lib}"
+      # A minimal `gleam.toml` config with a project name is required by
+      # `gleam compile-package`.
+      #
+      # We create one here if necessary, in Mix's build directory rather than
+      # the project's base directory (to avoid invoking Gleam's language
+      # server).
+      #
+      package =
+        unless File.regular?("gleam.toml") do
+          config = Path.join(build, "gleam.toml")
+          unless File.regular?(config) do
+            File.write!(config, ~s(name = "#{app}"))
+          end
+          ["src", "test"]
+          |> Enum.each(fn(dir) ->
+            src = Path.absname(dir)
+            dest = Path.join(build, dir)
+            File.rm_rf!(dest)
+            if File.ln_s(src, dest) != :ok do
+              File.cp_r!(src, dest)
+            end
+          end)
+          build
+        else
+          "."
+        end
+
+      cmd = "gleam compile-package --target erlang --no-beam --package #{package} --out #{out} --lib #{lib}"
       @shell.info("Compiling #{files} #{if tests?, do: "test "}file#{if 1 != files, do: "s"} (.gleam)")
       MixGleam.IO.debug_info("Compiler Command", cmd)
       compiled? = @shell.cmd(cmd) === 0
