@@ -31,7 +31,10 @@ defmodule MixGleam.Config do
       elixir: "~> #{ex_ver.major}.#{ex_ver.minor}",
       name: "\#{@app}",
       archives: [mix_gleam: "~> #{@version}"],
-      aliases: MixGleam.add_aliases(\),
+      compilers: [:gleam] ++ Mix.compilers(\),
+      aliases: [
+        "deps.get": ["deps.get", "gleam.deps.get"],
+      ],
       erlc_paths: ["build/dev/erlang/\#{@app}/build"],
       erlc_include_path: "build/dev/erlang/\#{@app}/include",
       start_permanent: Mix.env(\) == :prod,
@@ -129,7 +132,7 @@ end)
 
     keys =
       unless nil == split_keys do
-        split_keys 
+        split_keys
       else
         keys
       end

@@ -15,16 +15,6 @@ defmodule Mix.Tasks.Gleam.Deps.Get do
 
       def project do
         [
-          # [...]
-          aliases: MixGleam.add_aliases(),
-
-          # or
-          aliases: [
-            "my.task": ["help"]
-          ]
-          |> MixGleam.add_aliases,
-
-          # or
           aliases: ["deps.get": ["deps.get", "gleam.deps.get"]],
         ]
       end

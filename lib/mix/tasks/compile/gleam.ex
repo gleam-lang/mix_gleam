@@ -48,17 +48,7 @@ defmodule Mix.Tasks.Compile.Gleam do
 
       def project do
         [
-          # [...]
-          aliases: MixGleam.add_aliases(),
-
-          # or
-          aliases: [
-            "my.task": ["help"]
-          ]
-          |> MixGleam.add_aliases,
-
-          # or
-          aliases: ["compile.all": ["compile.gleam", "compile.all"]],
+          compilers: [:gleam] ++ Mix.compilers(),
         ]
       end
 
