@@ -1,12 +1,17 @@
 # MixGleam
 
+[![Hex Package](https://img.shields.io/hexpm/v/mix_gleam?color=ffaff3&label=%F0%9F%93%A6)](https://hex.pm/packages/mix_gleam)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3?label=%F0%9F%93%9A)](https://hexdocs.pm/mix_gleam/)
+[![Licence](https://img.shields.io/hexpm/l/mix_gleam?color=ffaff3&label=%F0%9F%93%83)](https://github.com/gleam-lang/mix_gleam/blob/main/LICENCE)
+[![Build](https://img.shields.io/github/workflow/status/gleam-lang/mix_gleam/CI?color=ffaff3&label=%E2%9C%A8)](https://github.com/gleam-lang/mix_gleam/actions)
+
 An Elixir archive that teaches `Mix` how to work with Gleam code and
 dependencies!
 
 ## Installation
 
 Install the Gleam compiler onto your machine. [Installation instructions can
-be found here here](https://gleam.run/getting-started/installing-gleam.html).
+be found here](https://gleam.run/getting-started/installing-gleam.html).
 
 Install or update the `MixGleam` archive from Hex:
 
@@ -65,8 +70,8 @@ If you want to write Gleam code in your project, it's a good idea to add
   defp deps do
     [
       # ...
-      {:gleam_stdlib, "~> 0.18"},
-      {:gleeunit, "~> 0.5", only: [:dev, :test], runtime: false},
+      {:gleam_stdlib, "~> 0.22"},
+      {:gleeunit, "~> 0.6", only: [:dev, :test], runtime: false},
       # ...
     ]
   end
