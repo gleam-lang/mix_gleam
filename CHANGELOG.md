@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- `mix gleam.compile` task is renamed to `mix compile.gleam` for compatibility
+  with the `:compilers` Mix.Project option.
+- `MixGleam.add_aliases` is deprecated in favor of adding `:gleam` to `:compilers`
+  and specifying an alias for `:"deps.get"`.
+
 ## v0.5.0 - 2022-06-08
 
 - Gleam code is now compiled from Mix's `_build` directory. The presence of

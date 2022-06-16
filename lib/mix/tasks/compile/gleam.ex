@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Gleam.Compile do
+defmodule Mix.Tasks.Compile.Gleam do
   use Mix.Task
 
   @shortdoc "Compiles Gleam source files"
@@ -16,16 +16,16 @@ defmodule Mix.Tasks.Gleam.Compile do
   ## Examples:
 
       # Compile Gleam to Erlang in the Mix project.
-      mix gleam.compile
+      mix compile.gleam
 
       # Compile Gleam to Erlang in a dependency.
-      mix gleam.compile gleam_stdlib
+      mix compile.gleam gleam_stdlib
 
       # Compile several dependencies.
-      mix gleam.compile gleam_http gleam_otp
+      mix compile.gleam gleam_http gleam_otp
 
       # Force Gleam compilation.
-      mix gleam.compile gleam_plug --force 
+      mix compile.gleam gleam_plug --force
 
       # Prevent Gleam compilation.
       mix deps.compile --no-gleam
@@ -48,17 +48,7 @@ defmodule Mix.Tasks.Gleam.Compile do
 
       def project do
         [
-          # [...]
-          aliases: MixGleam.add_aliases(),
-
-          # or
-          aliases: [
-            "my.task": ["help"]
-          ]
-          |> MixGleam.add_aliases,
-
-          # or
-          aliases: ["compile.all": ["gleam.compile", "compile.all"]],
+          compilers: [:gleam] ++ Mix.compilers(),
         ]
       end
 

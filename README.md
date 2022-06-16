@@ -36,7 +36,11 @@ compiler and Gleam dependencies:
       app: @app,
       # ...
       archives: [mix_gleam: "~> 0.4.0"],
-      aliases: MixGleam.add_aliases(aliases()),
+      compilers: [:gleam | Mix.compilers()],
+      aliases: [
+        # or add this alias to your aliases() function
+        "deps.get": ["deps.get", "gleam.deps.get"]
+      ],
       erlc_paths: ["build/dev/erlang/#{@app}/build"],
       erlc_include_path: "build/dev/erlang/#{@app}/include",
       # ...

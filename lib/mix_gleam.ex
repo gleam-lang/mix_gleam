@@ -19,10 +19,11 @@ defmodule MixGleam do
     end)
   end
 
+  @deprecated "Please prepend :gleam to :compilers and add :\"deps.get\" to :aliases following mix_gleam README.md instead"
   def add_aliases(aliases \\ []) do
     aliases
     |> MixGleam.Aliases.append(["deps.get": ["gleam.deps.get"]])
-    |> MixGleam.Aliases.prepend(["compile.all": ["gleam.compile"]])
+    |> MixGleam.Aliases.prepend(["compile.all": ["compile.gleam"]])
   end
 
   def get_config(path \\ "gleam.toml") do
