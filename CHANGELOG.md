@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.6.0 - Unreleased
+## v0.6.0 - 2022-06-16
 
 - `mix gleam.compile` task is renamed to `mix compile.gleam` for compatibility
   with the `:compilers` Mix.Project option.
