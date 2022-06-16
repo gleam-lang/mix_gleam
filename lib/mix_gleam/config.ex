@@ -1,5 +1,5 @@
 defmodule MixGleam.Config do
-  @version "0.4.0"
+  @version "0.6.0"
   @deps [
     {:gleam_stdlib, "~> 0.18"},
     {:gleeunit, "~> 0.5", only: [:dev, :test], runtime: false},
