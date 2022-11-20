@@ -92,3 +92,11 @@ To run Gleam tests from the `test/` directory with `:gleeunit`, you can run:
 ```shell
 $ mix gleam.test
 ```
+
+# Example
+
+Check the [test project](test_projects/basic_project/) for an example that contains both Elixir and Gleam code. See the
+[Elixir](test_projects/basic_project/test/basic_project_test.exs)
+and [Gleam](test_projects/basic_project/test/basic_project_test.gleam)
+test files to find examples on calling Gleam code from Elixir,
+and vice-versa.
