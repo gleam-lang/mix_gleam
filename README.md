@@ -86,3 +86,9 @@ $ mkdir src
 
 And add the `build` directory to your `.gitignore` file so Gleam's build
 artefacts are not included in your project.
+
+To run Gleam tests from the `test/` directory with `:gleeunit`, you can run:
+
+```shell
+$ mix gleam.test
+```
