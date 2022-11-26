@@ -35,7 +35,10 @@ defmodule MixGleam.Config do
       aliases: [
         "deps.get": ["deps.get", "gleam.deps.get"],
       ],
-      erlc_paths: ["build/dev/erlang/\#{@app}/build"],
+      erlc_paths: [
+        "build/dev/erlang/\#{@app}/build",  # for gleam<0.25.0
+        "build/dev/erlang/\#{@app}/_gleam_artefacts"  # for gleam>=0.25.0
+      ],
       erlc_include_path: "build/dev/erlang/\#{@app}/include",
       start_permanent: Mix.env(\) == :prod,
       deps: deps(\),

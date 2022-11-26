@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.7.0 - 2022-12-03
+- Updated to work with gleam 0.25.0 
+
 ## v0.6.0 - 2022-06-16
 
 - `mix gleam.compile` task is renamed to `mix compile.gleam` for compatibility
