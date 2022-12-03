@@ -164,7 +164,22 @@ defmodule Mix.Tasks.Compile.Gleam do
       compiled? = @shell.cmd(cmd) === 0
 
       if compiled? do
-        File.cp_r!(out, Mix.Project.app_path())
+        app_path = Mix.Project.app_path()
+        out
+        |> File.ls!
+        |> Enum.each(fn(item) ->
+          dest = Path.join(app_path, item)
+          case File.lstat(dest) do
+            # Windows disallows copying over existing symlinks.
+            # Mix creates some symlinks on its own, e.g. priv.
+            #
+            {:ok, %File.Stat{type: :symlink}} -> []
+            _else ->
+              out
+              |> Path.join(item)
+              |> File.cp_r!(dest)
+          end
+        end)
 
         # TODO reuse when `gleam` conditionally compiles tests
         #if not tests? and Mix.env() in [:dev, :test] do

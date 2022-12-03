@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Fixed a bug where compiling on Windows would fail for projects with a `priv`
+  directory.
+
 ## v0.6.0 - 2022-06-16
 
 - `mix gleam.compile` task is renamed to `mix compile.gleam` for compatibility
