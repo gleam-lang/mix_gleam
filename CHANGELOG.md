@@ -1,7 +1,10 @@
 # Changelog
 
-## v0.7.0 - 2022-12-03
-- Updated to work with gleam 0.25.0 
+## Unreleased
+
+- Updated for Gleam v0.25 compatibility.
+- Fixed a bug where compiling on Windows would fail for projects with a `priv`
+  directory.
 
 ## v0.6.0 - 2022-06-16
 
