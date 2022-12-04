@@ -168,16 +168,14 @@ defmodule Mix.Tasks.Compile.Gleam do
         out
         |> File.ls!
         |> Enum.each(fn(item) ->
+          src = Path.join(out, item)
           dest = Path.join(app_path, item)
-          case File.lstat(dest) do
+          case File.lstat(src) do
             # Windows disallows copying over existing symlinks.
             # Mix creates some symlinks on its own, e.g. priv.
             #
             {:ok, %File.Stat{type: :symlink}} -> []
-            _else ->
-              out
-              |> Path.join(item)
-              |> File.cp_r!(dest)
+            _else -> File.cp_r!(src, dest)
           end
         end)
 
