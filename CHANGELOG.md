@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Updated for Gleam v0.25 compatibility.
 - Fixed a bug where compiling on Windows would fail for projects with a `priv`
   directory.
 

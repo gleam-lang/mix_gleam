@@ -46,7 +46,9 @@ compiler and Gleam dependencies:
         # or add this alias to your aliases() function
         "deps.get": ["deps.get", "gleam.deps.get"]
       ],
-      erlc_paths: ["build/dev/erlang/#{@app}/build"],
+      erlc_paths: ["build/dev/erlang/#{@app}/_gleam_artefacts"],
+      # Or if you are using gleam<0.25.0
+      # erlc_paths: ["build/dev/erlang/#{@app}/build"],
       erlc_include_path: "build/dev/erlang/#{@app}/include",
       # ...
     ]
