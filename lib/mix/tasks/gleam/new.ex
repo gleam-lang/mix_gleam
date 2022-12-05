@@ -25,7 +25,7 @@ defmodule Mix.Tasks.Gleam.New do
   """
 
   @switches [
-    retro: :boolean,
+    retro: :boolean
   ]
 
   @impl true
@@ -36,11 +36,13 @@ defmodule Mix.Tasks.Gleam.New do
     case OptionParser.parse(args, switches: @switches) do
       {options, _tail, _} ->
         retro? = Keyword.get(options, :retro, false)
+
         unless retro? do
           Mix.Tasks.Help.run(["gleam.new"])
           @shell.info("\n")
           retro()
         end
+
         if retro?, do: retro()
     end
 

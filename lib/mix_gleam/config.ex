@@ -2,7 +2,7 @@ defmodule MixGleam.Config do
   @version "0.6.0"
   @deps [
     {:gleam_stdlib, "~> 0.18"},
-    {:gleeunit, "~> 0.5", only: [:dev, :test], runtime: false},
+    {:gleeunit, "~> 0.5", only: [:dev, :test], runtime: false}
   ]
 
   @moduledoc false
@@ -10,15 +10,15 @@ defmodule MixGleam.Config do
   # TODO use eex template
   def render_mix(app, version \\ "0.1.0", deps \\ @deps) do
     ex_ver =
-      System.version
-      |> Version.parse!
+      System.version()
+      |> Version.parse!()
 
     deps =
       deps
       |> inspect(pretty: true, limit: :infinity, width: 50)
       |> String.replace("\n", "\n    ")
 
-~s(defmodule #{Mix.Utils.command_to_module_name(app)}.MixProject do
+    ~s(defmodule #{Mix.Utils.command_to_module_name(app)}.MixProject do
   use Mix.Project
 
   @app :#{app}
@@ -33,15 +33,17 @@ defmodule MixGleam.Config do
       archives: [mix_gleam: "~> #{@version}"],
       compilers: [:gleam] ++ Mix.compilers(\),
       aliases: [
-        "deps.get": ["deps.get", "gleam.deps.get"],
+        # Or add this to your aliases function
+        "deps.get": ["deps.get", "gleam.deps.get"]
       ],
       erlc_paths: [
-        "build/dev/erlang/\#{@app}/build",  # for gleam<0.25.0
-        "build/dev/erlang/\#{@app}/_gleam_artefacts"  # for gleam>=0.25.0
+        "build/dev/erlang/\#{@app}/_gleam_artefacts",
+        # For Gleam < v0.25.0
+        "build/dev/erlang/\#{@app}/build"
       ],
       erlc_include_path: "build/dev/erlang/\#{@app}/include",
       start_permanent: Mix.env(\) == :prod,
-      deps: deps(\),
+      deps: deps(\)
     ]
   end
 
@@ -80,8 +82,10 @@ end)
       cond do
         [] == table and not is_nil(value) ->
           {table, nested_update(acc, keys, value)}
+
         nil == value ->
           {keys, nested_update(acc, keys, %{})}
+
         true ->
           {table, nested_update(acc, table ++ keys, value)}
       end
@@ -97,20 +101,22 @@ end)
       |> List.replace_at(-1, List.last(keys))
 
     map
-    |> get_and_update_in(keys, &{&1, (if is_nil(&1), do: value, else: &1)})
+    |> get_and_update_in(keys, &{&1, if(is_nil(&1), do: value, else: &1)})
     |> elem(1)
   end
 
   @doc false
   def parse(token) do
     case token do
-      {_keys, nil} = token -> token
+      {_keys, nil} = token ->
+        token
 
       {keys, value} ->
         value =
           value
-          |> Macro.unescape_string
+          |> Macro.unescape_string()
           |> String.replace(~r/^"(.*?)"$/, "\\1")
+
         {keys, value}
     end
   end
@@ -125,6 +131,7 @@ end)
         emit =
           acc
           |> Enum.flat_map(&String.split(&1, dotted_key))
+
         unless acc == emit do
           {emit, emit}
         else
@@ -164,7 +171,8 @@ end)
         [_, key, value] = match
         {[key], value}
 
-      true -> {[], nil}
+      true ->
+        {[], nil}
     end
   end
 end

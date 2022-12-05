@@ -30,22 +30,26 @@ defmodule Mix.Tasks.Gleam.Deps.Get do
       |> Enum.map(fn %Mix.Dep{app: app, opts: opts, manager: manager} = dep ->
         cmd? = fn -> not is_nil(opts[:compile]) end
         managed? = fn -> not is_nil(manager) end
+
         unless managed?.() or cmd?.() do
           Mix.Dep.in_dependency(dep, fn _module ->
             mix? = fn -> File.exists?("mix.exs") end
+
             unless mix?.() or not MixGleam.gleam?(dep) do
               @shell.info("Adding mix.exs")
               config = MixGleam.get_config()
               version = Map.get(config, :version, "0.1.0")
+
               deps =
                 Map.get(config, :dependencies, %{})
-                |> Map.to_list
+                |> Map.to_list()
+
               dev_deps =
                 Map.get(config, :"dev-dependencies", %{})
-                |> Map.to_list
-                |> Enum.map(&Tuple.append(&1, [only: [:dev, :test], runtime: false]))
-              deps =
-                deps ++ dev_deps
+                |> Map.to_list()
+                |> Enum.map(&Tuple.append(&1, only: [:dev, :test], runtime: false))
+
+              deps = deps ++ dev_deps
               # TODO use eex template
               File.write!("mix.exs", MixGleam.Config.render_mix(app, version, deps))
               :cont

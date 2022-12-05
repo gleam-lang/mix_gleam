@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
+      - "v*.*.*"
   pull_request:
 
 jobs:
-  basic_project:
+  test:
     runs-on: ubuntu-latest
-    name: Test basic project
+    name: test
     env:
       MIX_ENV: test
     steps:
@@ -17,19 +18,26 @@ jobs:
 
       - uses: erlef/setup-beam@v1
         with:
-          otp-version: "25.0"
-          elixir-version: "1.13.4"
-          gleam-version: "0.21.0"
+          otp-version: "25.1"
+          elixir-version: "1.14.2"
+          gleam-version: nightly
 
-      - run: mix do archive.build, archive.install --force
+      - name: Check formatting
+        run: mix format --check-formatted
+
+      - name: Install archive
+        run: mix do archive.build, archive.install --force
         env:
           MIX_ENV: prod
 
-      - run: mix deps.get
+      - name: Get basic project deps
+        run: mix deps.get
         working-directory: test_projects/basic_project
 
-      - run: mix test
+      - name: Test basic project
+        run: mix test
         working-directory: test_projects/basic_project
 
-      - run: mix gleam.test
+      - name: Gleam test basic project
+        run: mix gleam.test
         working-directory: test_projects/basic_project

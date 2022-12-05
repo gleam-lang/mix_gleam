@@ -38,6 +38,7 @@ defmodule Mix.Tasks.Gleam.Test do
       |> Keyword.get_lazy(:app, fn ->
         raise MixGleam.Error, message: "Unable to find app name"
       end)
+
     module = String.to_atom("#{app}_test")
 
     Mix.Task.run("compile")
