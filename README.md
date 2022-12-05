@@ -40,7 +40,7 @@ compiler and Gleam dependencies:
     [
       app: @app,
       # ...
-      archives: [mix_gleam: "~> 0.6.0"],
+      archives: [mix_gleam: "~> 0.6.1"],
       compilers: [:gleam | Mix.compilers()],
       aliases: [
         # Or add this to your aliases function

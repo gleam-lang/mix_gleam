@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.6.1 - 2022-12-04
 
 - Updated for Gleam v0.25 compatibility.
 - Fixed a bug where compiling on Windows would fail for projects with a `priv`

@@ -4,14 +4,14 @@ defmodule MixGleam.MixProject do
   def project do
     [
       app: :mix_gleam,
-      version: "0.6.1-dev",
+      version: "0.6.1",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       name: "mix_gleam",
       description: "Compile Gleam code with mix",
       deps: deps(),
       package: [
-        maintainers: ["Louis Pilfold"],
+        maintainers: ["Louis Pilfold", "Tynan Beatty"],
         licenses: ["Apache-2.0"],
         links: %{"GitHub" => "https://github.com/gleam-lang/mix_gleam"}
       ]
