@@ -166,6 +166,8 @@ defmodule Mix.Tasks.Compile.Gleam do
           "."
         end
 
+      File.rm_rf!(out)
+
       cmd =
         "gleam compile-package --target erlang --no-beam --package #{package} --out #{out} --lib #{lib}"
 
