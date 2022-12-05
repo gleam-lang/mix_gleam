@@ -43,12 +43,14 @@ compiler and Gleam dependencies:
       archives: [mix_gleam: "~> 0.6.0"],
       compilers: [:gleam | Mix.compilers()],
       aliases: [
-        # or add this alias to your aliases() function
+        # Or add this to your aliases function
         "deps.get": ["deps.get", "gleam.deps.get"]
       ],
-      erlc_paths: ["build/dev/erlang/#{@app}/_gleam_artefacts"],
-      # Or if you are using gleam<0.25.0
-      # erlc_paths: ["build/dev/erlang/#{@app}/build"],
+      erlc_paths: [
+        "build/dev/erlang/#{@app}/_gleam_artefacts",
+        # For Gleam < v0.25.0
+        "build/dev/erlang/#{@app}/build"
+      ],
       erlc_include_path: "build/dev/erlang/#{@app}/include",
       # ...
     ]
@@ -72,8 +74,8 @@ If you want to write Gleam code in your project, it's a good idea to add
   defp deps do
     [
       # ...
-      {:gleam_stdlib, "~> 0.22"},
-      {:gleeunit, "~> 0.6", only: [:dev, :test], runtime: false},
+      {:gleam_stdlib, "~> 0.25"},
+      {:gleeunit, "~> 0.7", only: [:dev, :test], runtime: false},
       # ...
     ]
   end
@@ -95,7 +97,7 @@ To run Gleam tests from the `test/` directory with `:gleeunit`, you can run:
 $ mix gleam.test
 ```
 
-# Example
+## Example
 
 Check the [test project](test_projects/basic_project/) for an example that contains both Elixir and Gleam code. See the
 [Elixir](test_projects/basic_project/test/basic_project_test.exs)

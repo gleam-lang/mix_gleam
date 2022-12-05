@@ -57,7 +57,7 @@ defmodule Mix.Tasks.Compile.Gleam do
   @switches [
     force: :boolean,
     force_gleam: :boolean,
-    gleam: :boolean,
+    gleam: :boolean
   ]
 
   @impl true
@@ -73,6 +73,7 @@ defmodule Mix.Tasks.Compile.Gleam do
 
       {options, tail, _} ->
         deps = Mix.Dep.load_and_cache()
+
         tail
         |> Mix.Dep.filter_by_name(deps, options)
         |> Enum.each(fn %Mix.Dep{manager: manager, opts: opts} = dep ->
@@ -88,11 +89,13 @@ defmodule Mix.Tasks.Compile.Gleam do
   @doc false
   def compile(options \\ [], manager \\ nil) do
     cmd? = fn -> not is_nil(options[:compile]) end
+
     force? = fn ->
       [:force, :force_gleam]
       |> Stream.map(&Keyword.get(options, &1, false))
-      |> Enum.any?
+      |> Enum.any?()
     end
+
     gleam? = fn -> Keyword.get(options, :gleam, true) end
     has_own_gleam_manager? = fn -> manager not in [nil, :mix] end
 
@@ -105,6 +108,7 @@ defmodule Mix.Tasks.Compile.Gleam do
         rescue
           _ -> raise MixGleam.Error, message: "Unable to find app name"
         end
+
       compile_package(app)
     end
 
@@ -122,7 +126,7 @@ defmodule Mix.Tasks.Compile.Gleam do
 
     files =
       MixGleam.find_files(search_paths)
-      |> Enum.count
+      |> Enum.count()
 
     if 0 < files do
       lib = Path.join(Mix.Project.build_path(), "lib")
@@ -141,35 +145,46 @@ defmodule Mix.Tasks.Compile.Gleam do
       package =
         unless File.regular?("gleam.toml") do
           config = Path.join(build, "gleam.toml")
+
           unless File.regular?(config) do
             File.write!(config, ~s(name = "#{app}"))
           end
+
           ["src", "test"]
-          |> Enum.each(fn(dir) ->
+          |> Enum.each(fn dir ->
             src = Path.absname(dir)
             dest = Path.join(build, dir)
             File.rm_rf!(dest)
+
             if File.ln_s(src, dest) != :ok do
               File.cp_r!(src, dest)
             end
           end)
+
           build
         else
           "."
         end
 
-      cmd = "gleam compile-package --target erlang --no-beam --package #{package} --out #{out} --lib #{lib}"
-      @shell.info("Compiling #{files} #{if tests?, do: "test "}file#{if 1 != files, do: "s"} (.gleam)")
+      cmd =
+        "gleam compile-package --target erlang --no-beam --package #{package} --out #{out} --lib #{lib}"
+
+      @shell.info(
+        ~s(Compiling #{files} #{if tests?, do: "test "}file#{if 1 != files, do: "s"} (.gleam\))
+      )
+
       MixGleam.IO.debug_info("Compiler Command", cmd)
       compiled? = @shell.cmd(cmd) === 0
 
       if compiled? do
         app_path = Mix.Project.app_path()
+
         out
-        |> File.ls!
-        |> Enum.each(fn(item) ->
+        |> File.ls!()
+        |> Enum.each(fn item ->
           src = Path.join(out, item)
           dest = Path.join(app_path, item)
+
           case File.lstat(src) do
             # Windows disallows copying over existing symlinks.
             # Mix creates some symlinks on its own, e.g. priv.
@@ -180,9 +195,9 @@ defmodule Mix.Tasks.Compile.Gleam do
         end)
 
         # TODO reuse when `gleam` conditionally compiles tests
-        #if not tests? and Mix.env() in [:dev, :test] do
-          #compile_package(app, true)
-        #end
+        # if not tests? and Mix.env() in [:dev, :test] do
+        #   compile_package(app, true)
+        # end
       else
         raise MixGleam.Error, message: "Compilation failed"
       end

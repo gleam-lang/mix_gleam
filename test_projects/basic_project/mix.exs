@@ -12,11 +12,14 @@ defmodule BasicProject.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
 
-      # New items added for Gleam compilation
+      # Gleam compilation config
       compilers: [:gleam | Mix.compilers()],
       archives: [mix_gleam: "~> 0.6.0"],
       aliases: ["deps.get": ["deps.get", "gleam.deps.get"]],
-      erlc_paths: ["build/dev/erlang/#{@app}/build"],
+      erlc_paths: [
+        "build/dev/erlang/#{@app}/_gleam_artefacts",
+        "build/dev/erlang/#{@app}/build"
+      ],
       erlc_include_path: "build/dev/erlang/#{@app}/include"
     ]
   end
@@ -32,8 +35,8 @@ defmodule BasicProject.MixProject do
   defp deps do
     [
       # {:mix_gleam, path: "../../"}
-      {:gleam_stdlib, "~> 0.21"},
-      {:gleeunit, "~> 0.6", only: [:dev, :test]}
+      {:gleam_stdlib, "~> 0.25"},
+      {:gleeunit, "~> 0.7", only: [:dev, :test], runtime: false}
     ]
   end
 end
