@@ -6,11 +6,11 @@ pub fn main() {
 }
 
 pub fn gleam_code_test() {
-  assert World = basic_project.hello()
+  let assert World = basic_project.hello()
 }
 
 pub fn elixir_code_test() {
-  assert World = hello_elixir()
+  let assert World = hello_elixir()
 }
 
 external fn hello_elixir() -> Thing =
