@@ -35,8 +35,8 @@ defmodule BasicProject.MixProject do
   defp deps do
     [
       # {:mix_gleam, path: "../../"}
-      {:gleam_stdlib, "~> 0.25"},
-      {:gleeunit, "~> 0.7", only: [:dev, :test], runtime: false}
+      {:gleam_stdlib, "~> 0.28"},
+      {:gleeunit, "~> 0.10", only: [:dev, :test], runtime: false}
     ]
   end
 end

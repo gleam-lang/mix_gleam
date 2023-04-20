@@ -74,8 +74,8 @@ If you want to write Gleam code in your project, it's a good idea to add
   defp deps do
     [
       # ...
-      {:gleam_stdlib, "~> 0.25"},
-      {:gleeunit, "~> 0.7", only: [:dev, :test], runtime: false},
+      {:gleam_stdlib, "~> 0.28"},
+      {:gleeunit, "~> 0.10", only: [:dev, :test], runtime: false},
       # ...
     ]
   end
