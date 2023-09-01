@@ -34,9 +34,9 @@ defmodule BasicProject.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      # {:mix_gleam, path: "../../"}
-      {:gleam_stdlib, "~> 0.28"},
-      {:gleeunit, "~> 0.10", only: [:dev, :test], runtime: false}
+      {:mix_gleam, path: "../../"},
+      {:gleam_stdlib, "~> 0.30"},
+      {:gleeunit, "~> 0.11", only: [:dev, :test], runtime: false}
     ]
   end
 end
