@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.6.2 - 2023-11-16
 
 - Updated for Elixir v1.15 and Gleam v0.32 compatibility. Make sure to set
   `prune_code_paths: false` in your `mix.exs` project config.
