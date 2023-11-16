@@ -1,8 +1,8 @@
 defmodule MixGleam.Config do
   @version "0.6.1"
   @deps [
-    {:gleam_stdlib, "~> 0.28"},
-    {:gleeunit, "~> 0.10", only: [:dev, :test], runtime: false}
+    {:gleam_stdlib, "~> 0.32"},
+    {:gleeunit, "~> 1.0", only: [:dev, :test], runtime: false}
   ]
 
   @moduledoc false
@@ -42,6 +42,8 @@ defmodule MixGleam.Config do
         "build/dev/erlang/\#{@app}/build"
       ],
       erlc_include_path: "build/dev/erlang/\#{@app}/include",
+      # For Elixir >= v1.15.0
+      prune_code_paths: false,
       start_permanent: Mix.env(\) == :prod,
       deps: deps(\)
     ]

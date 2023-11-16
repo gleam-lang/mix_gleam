@@ -1,5 +1,5 @@
 import gleeunit
-import basic_project.{Thing, World}
+import basic_project.{type Thing, World}
 
 pub fn main() {
   gleeunit.main()
@@ -13,5 +13,5 @@ pub fn elixir_code_test() {
   let assert World = hello_elixir()
 }
 
-external fn hello_elixir() -> Thing =
-  "Elixir.BasicProject" "hello"
+@external(erlang, "Elixir.BasicProject", "hello")
+fn hello_elixir() -> Thing

@@ -10,8 +10,8 @@ dependencies!
 
 ## Installation
 
-Install the Gleam compiler onto your machine. [Installation instructions can
-be found here](https://gleam.run/getting-started/installing-gleam.html).
+Install the Gleam compiler onto your machine.
+[Installation instructions can be found here](https://gleam.run/getting-started/installing-gleam.html).
 
 Install or update the `MixGleam` archive from Hex:
 
@@ -52,6 +52,8 @@ compiler and Gleam dependencies:
         "build/dev/erlang/#{@app}/build"
       ],
       erlc_include_path: "build/dev/erlang/#{@app}/include",
+      # For Elixir >= v1.15.0
+      prune_code_paths: false,
       # ...
     ]
   end
@@ -74,8 +76,8 @@ If you want to write Gleam code in your project, it's a good idea to add
   defp deps do
     [
       # ...
-      {:gleam_stdlib, "~> 0.28"},
-      {:gleeunit, "~> 0.10", only: [:dev, :test], runtime: false},
+      {:gleam_stdlib, "~> 0.32"},
+      {:gleeunit, "~> 1.0", only: [:dev, :test], runtime: false},
       # ...
     ]
   end
@@ -99,8 +101,8 @@ $ mix gleam.test
 
 ## Example
 
-Check the [test project](test_projects/basic_project/) for an example that contains both Elixir and Gleam code. See the
-[Elixir](test_projects/basic_project/test/basic_project_test.exs)
-and [Gleam](test_projects/basic_project/test/basic_project_test.gleam)
-test files to find examples on calling Gleam code from Elixir,
-and vice-versa.
+Check the [test project](test_projects/basic_project/) for an example that
+contains both Elixir and Gleam code. See the
+[Elixir](test_projects/basic_project/test/basic_project_test.exs) and
+[Gleam](test_projects/basic_project/test/basic_project_test.gleam) test files to
+find examples on calling Gleam code from Elixir, and vice-versa.

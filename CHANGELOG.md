@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Updated for Elixir v1.15 and Gleam v0.32 compatibility. Make sure to set
+  `prune_code_paths: false` in your `mix.exs` project config.
+
 ## v0.6.1 - 2022-12-04
 
 - Updated for Gleam v0.25 compatibility.
@@ -10,8 +15,8 @@
 
 - `mix gleam.compile` task is renamed to `mix compile.gleam` for compatibility
   with the `:compilers` Mix.Project option.
-- `MixGleam.add_aliases` is deprecated in favor of adding `:gleam` to `:compilers`
-  and specifying an alias for `:"deps.get"`.
+- `MixGleam.add_aliases` is deprecated in favor of adding `:gleam` to
+  `:compilers` and specifying an alias for `:"deps.get"`.
 
 ## v0.5.0 - 2022-06-08
 
