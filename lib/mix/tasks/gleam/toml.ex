@@ -44,6 +44,7 @@ defmodule Mix.Tasks.Gleam.Toml do
           []
         end
       end)
+      |> Enum.sort()
 
     toml =
       [
