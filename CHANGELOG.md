@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.6.3 - 2024-01-28
+
+- Added `mix gleam.toml [--replace]` task. It generates gleam.toml from mix.exs. This might be useful for Gleam tooling support in Mix projects, such as Gleam LSP.
+
 ## v0.6.2 - 2023-11-16
 
 - Updated for Elixir v1.15 and Gleam v0.32 compatibility. Make sure to set

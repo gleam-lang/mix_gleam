@@ -1,5 +1,25 @@
 defmodule Mix.Tasks.Gleam.Toml do
   use Mix.Task
+  @shortdoc "Generates gleam.toml from mix.exs."
+  @moduledoc """
+  #{@shortdoc}
+
+  This might be useful for Gleam tooling support in Mix projects, such as Gleam LSP.
+
+  Print gleam.toml into stdout:
+
+      mix gleam.toml
+
+  Replace gleam.toml file:
+
+      mix gleam.toml --replace
+
+  Automate gleam.toml sync using mix.exs project aliases:
+
+      aliases: [
+        "deps.get": ["deps.get", "gleam.deps.get", "gleam.toml --replace"]
+      ]
+  """
   @impl true
   @shell Mix.shell()
   def run(argv) do
