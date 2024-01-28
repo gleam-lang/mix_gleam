@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Gleam.Toml do
   use Mix.Task
-  @shortdoc "Generates gleam.toml from mix.exs."
+  @shortdoc "Generates gleam.toml in Mix project."
   @moduledoc """
   #{@shortdoc}
 
@@ -31,6 +31,7 @@ defmodule Mix.Tasks.Gleam.Toml do
 
     Mix.Project.get!()
     cfg = Mix.Project.config()
+    cwd = Mix.Project.project_file() |> Path.dirname()
 
     deps =
       Mix.Dep.load_and_cache()
@@ -38,7 +39,7 @@ defmodule Mix.Tasks.Gleam.Toml do
         dst = Keyword.fetch!(opts, :dest)
 
         if dst |> Path.join("gleam.toml") |> File.regular?() do
-          [{dep, [path: dst]}]
+          [{dep, path: Path.relative_to(dst, cwd)}]
         else
           []
         end
@@ -53,8 +54,7 @@ defmodule Mix.Tasks.Gleam.Toml do
       |> mk_toml
 
     if replace do
-      Mix.Project.project_file()
-      |> Path.dirname()
+      cwd
       |> Path.join("gleam.toml")
       |> File.write!(toml)
     else
