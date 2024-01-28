@@ -77,10 +77,10 @@ defmodule Mix.Tasks.Gleam.Toml do
   defp mk_toml_val(x) do
     cond do
       is_map(x) or Keyword.keyword?(x) ->
-        "{#{x |> Enum.map(&mk_toml_row/1) |> Enum.join(",")}}"
+        "{#{x |> Enum.map(&mk_toml_row/1) |> Enum.join(", ")}}"
 
       is_list(x) ->
-        "[#{x |> Enum.map(&mk_toml_val/1) |> Enum.join(",")}]"
+        "[#{x |> Enum.map(&mk_toml_val/1) |> Enum.join(", ")}]"
 
       is_number(x) ->
         to_string(x)
