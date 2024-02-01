@@ -70,8 +70,7 @@ end)
 
     File.read!(path)
     |> String.split(definition, trim: true)
-    |> Stream.map(&tokenize/1)
-    |> Stream.reject(&({[], nil} == &1))
+    |> Stream.flat_map(&tokenize/1)
     |> Stream.map(&atomize/1)
     |> Stream.map(&parse/1)
     |> structure
@@ -167,14 +166,35 @@ end)
     cond do
       match = Regex.run(table, line) ->
         [_, key] = match
-        {[key], nil}
+        [{[key], nil}]
 
       match = Regex.run(assignment, line) ->
         [_, key, value] = match
-        {[key], value}
+
+        tokenize_inline_table([key], value)
 
       true ->
-        {[], nil}
+        []
+    end
+  end
+
+  defp tokenize_inline_table(prev_keys, prev_value) do
+    re = ~r/\{(.+?)\}/
+
+    case Regex.run(re, prev_value, capture: :all_but_first) do
+      [pairs] ->
+        pairs
+        |> String.split(",")
+        |> Stream.map(&String.split(&1, "="))
+        |> Enum.flat_map(fn [next_key, next_value] ->
+          tokenize_inline_table(
+            prev_keys ++ [String.trim(next_key)],
+            String.trim(next_value)
+          )
+        end)
+
+      _ ->
+        [{prev_keys, prev_value}]
     end
   end
 end

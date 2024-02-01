@@ -13,8 +13,7 @@ defmodule Mix.Tasks.Gleam.Deps.Get do
 
   Include this task in your project's `mix.exs` with, e.g.:
 
-      def project do
-        [
+      def project do [
           aliases: ["deps.get": ["deps.get", "gleam.deps.get"]],
         ]
       end
@@ -49,7 +48,7 @@ defmodule Mix.Tasks.Gleam.Deps.Get do
                 |> Map.to_list()
                 |> Enum.map(&Tuple.append(&1, only: [:dev, :test], runtime: false))
 
-              deps = deps ++ dev_deps
+              deps = unmap(deps ++ dev_deps)
               # TODO use eex template
               File.write!("mix.exs", MixGleam.Config.render_mix(app, version, deps))
               :cont
@@ -69,5 +68,14 @@ defmodule Mix.Tasks.Gleam.Deps.Get do
     end
 
     MixGleam.IO.debug_info("Deps.Get End")
+  end
+
+  defp unmap(x) do
+    cond do
+      is_map(x) -> x |> Map.to_list() |> unmap
+      is_list(x) -> x |> Enum.map(&unmap/1)
+      is_tuple(x) -> x |> Tuple.to_list() |> unmap |> List.to_tuple()
+      true -> x
+    end
   end
 end
