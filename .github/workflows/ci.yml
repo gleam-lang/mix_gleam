@@ -20,7 +20,7 @@ jobs:
         with:
           otp-version: "26"
           elixir-version: "1.15"
-          gleam-version: nightly
+          gleam-version: "1.0.0-rc1"
 
       - name: Check formatting
         run: mix format --check-formatted
