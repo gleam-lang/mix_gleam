@@ -40,7 +40,7 @@ compiler and Gleam dependencies:
     [
       app: @app,
       # ...
-      archives: [mix_gleam: "~> 0.6.2"],
+      archives: [mix_gleam: "~> 0.6"],
       compilers: [:gleam | Mix.compilers()],
       aliases: [
         # Or add this to your aliases function
@@ -76,7 +76,7 @@ If you want to write Gleam code in your project, it's a good idea to add
   defp deps do
     [
       # ...
-      {:gleam_stdlib, "~> 0.32"},
+      {:gleam_stdlib, "~> 0.34 or ~> 1.0"},
       {:gleeunit, "~> 1.0", only: [:dev, :test], runtime: false},
       # ...
     ]
