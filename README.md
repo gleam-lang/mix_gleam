@@ -11,7 +11,7 @@ dependencies!
 ## Installation
 
 Install the Gleam compiler onto your machine.
-[Installation instructions can be found here](https://gleam.run/getting-started/installing-gleam.html).
+[Installation instructions can be found here](https://gleam.run/install).
 
 Install or update the `MixGleam` archive from Hex:
 
